@@ -10,7 +10,7 @@ from app.models import Question, Answer, User, question_voter
 from app.views.auth_views import login_required
 
 bp = Blueprint('question', __name__, url_prefix='/question')
-
+# 게시글 리스트
 @bp.route('/list/')
 def _list():
     # 입력 파라미터
@@ -53,13 +53,13 @@ def _list():
     # 페이징
     question_list = question_list.paginate(page, per_page=10)
     return render_template('question/question_list.html', question_list=question_list, page=page, kw=kw)
-
+# 질문 게시글 상세 페이지
 @bp.route('/detail/<int:question_id>/')
 def detail(question_id):
     form = AnswerForm()
     question = Question.query.get_or_404(question_id)
     return render_template('question/question_detail.html', question=question, form=form)
-
+# 질문 등록
 @bp.route('/create/', methods=('GET', 'POST'))
 @login_required
 def create():
@@ -71,7 +71,7 @@ def create():
         db.session.commit()
         return redirect(url_for('main.index'))
     return render_template('question/question_form.html', form=form)
-
+# 질문 수정
 @bp.route('/modify/<int:question_id>', methods=('GET', 'POST'))
 @login_required
 def modify(question_id):
@@ -89,7 +89,7 @@ def modify(question_id):
     else:
         form = QuestionForm(obj=question)
     return render_template('question/question_form.html', form=form)
-
+# 질문 삭제
 @bp.route('/delete/<int:question_id>')
 @login_required
 def delete(question_id):

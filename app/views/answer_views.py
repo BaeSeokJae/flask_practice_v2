@@ -9,7 +9,7 @@ from app.models import Question, Answer
 from app.views.auth_views import login_required
 
 bp = Blueprint('answer', __name__, url_prefix='/answer')
-
+# 답변 생성
 @bp.route('/create/<int:question_id>', methods=('POST',))
 @login_required
 def create(question_id):
@@ -23,7 +23,7 @@ def create(question_id):
         return redirect('{}#answer_{}'.format(
             url_for('question.detail', question_id=question_id), answer.id))
     return render_template('question/question_detail.html', question=question, form=form)
-
+# 답변 수정
 @bp.route('/modify/<int:answer_id>', methods=('GET', 'POST'))
 @login_required
 def modify(answer_id):
@@ -42,7 +42,7 @@ def modify(answer_id):
     else:
         form = AnswerForm(obj=answer)
     return render_template('answer/answer_form.html', answer=answer, form=form)
-
+# 답변 삭제
 @bp.route('/delete/<int:answer_id>')
 @login_required
 def delete(answer_id):

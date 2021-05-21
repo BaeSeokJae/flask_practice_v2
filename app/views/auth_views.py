@@ -9,8 +9,7 @@ from app.models import User
 import functools
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
+# 회원가입
 @bp.route('/signup/', methods=('GET', 'POST'))
 def signup():
     form = UserCreateForm()
@@ -26,7 +25,7 @@ def signup():
         else:
             flash('이미 존재하는 사용자입니다.')
     return render_template('auth/signup.html', form=form)
-
+# 로그인
 @bp.route('/login/', methods=('GET', 'POST'))
 def login():
     form = UserLoginForm()
@@ -51,7 +50,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = User.query.get(user_id)
-
+# 로그아웃
 @bp.route('/logout/')
 def logout():
     session.clear()

@@ -10,7 +10,7 @@ from app.views.auth_views import login_required
 
 bp = Blueprint('comment', __name__, url_prefix='/comment')
 
-
+# 질문 댓글 달기
 @bp.route('/create/question/<int:question_id>', methods=('GET', 'POST'))
 @login_required
 def create_question(question_id):
@@ -23,7 +23,7 @@ def create_question(question_id):
         return redirect('{}#comment_{}'.format(
             url_for('question.detail', question_id=question_id), comment.id))
     return render_template('comment/comment_form.html', form=form)
-
+# 질문 댓글 수정
 @bp.route('/modify/question/<int:comment_id>', methods=('GET', 'POST'))
 @login_required
 def modify_question(comment_id):
@@ -42,7 +42,7 @@ def modify_question(comment_id):
     else:
         form = CommentForm(obj=comment)
     return render_template('comment/comment_form.html', form=form)
-
+# 질문 댓글 삭제
 @bp.route('/delete/question/<int:comment_id>')
 @login_required
 def delete_question(comment_id):
@@ -54,7 +54,7 @@ def delete_question(comment_id):
     db.session.delete(comment)
     db.session.commit()
     return redirect(url_for('question.detail', question_id=question_id))
-
+# 답글 댓글 생성
 @bp.route('/create/answer/<int:answer_id>', methods=('GET', 'POST'))
 @login_required
 def create_answer(answer_id):
@@ -67,7 +67,7 @@ def create_answer(answer_id):
         return redirect('{}#comment_{}'.format(
             url_for('question.detail', question_id=answer.question.id), comment.id))
     return render_template('comment/comment_form.html', form=form)
-
+# 답글 댓글 수정
 @bp.route('/modify/answer/<int:comment_id>', methods=('GET', 'POST'))
 @login_required
 def modify_answer(comment_id):
@@ -86,8 +86,7 @@ def modify_answer(comment_id):
     else:
         form = CommentForm(obj=comment)
     return render_template('comment/comment_form.html', form=form)
-
-
+# 답글 댓글 삭제
 @bp.route('/delete/answer/<int:comment_id>')
 @login_required
 def delete_answer(comment_id):

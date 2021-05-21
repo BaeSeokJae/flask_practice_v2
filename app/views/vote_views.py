@@ -7,7 +7,7 @@ from app.views.auth_views import login_required
 
 bp = Blueprint('vote', __name__, url_prefix='/vote')
 
-
+# 질문 추천
 @bp.route('/question/<int:question_id>/')
 @login_required
 def question(question_id):
@@ -18,7 +18,7 @@ def question(question_id):
         _question.voter.append(g.user)
         db.session.commit()
     return redirect(url_for('question.detail', question_id=question_id))
-
+# 답글 추천
 @bp.route('/answer/<int:answer_id>/')
 @login_required
 def answer(answer_id):
